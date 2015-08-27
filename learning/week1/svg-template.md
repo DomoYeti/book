@@ -57,7 +57,7 @@ Draw negative numbers in red and positive numbers in green.
 
 <svg width="500" height="200">
 {% for number in numbers %}
-    <rect x="{{loop.index * 20}}" width="20" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect x="{{loop.index * 20}}" width="20" height="{{number}}" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
 {% endfor %}
 </svg>
 
@@ -69,7 +69,7 @@ Draw negative numbers in red and positive numbers in green.
 
 <svg width="500" height="200">
 {% for number in numbers %}
-    <rect y="{{loop.index * 20}}" width="100" height="20" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <rect y="{{loop.index * 20}}" width="{{number}}" height="20" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
 {% endfor %}
 </svg>
 
@@ -85,8 +85,10 @@ Draw negative numbers in red and positive numbers in green.
 <table>
     {% for rows in data %}
         <tr>
+            {% for column in rows %}
+            <td>{{column}}</td>
+            {% endfor %}
             <!-- Add your code here  -->
-            <td>10</td><td>15</td>
         </tr>
     {% endfor %}
 </table>
@@ -101,7 +103,7 @@ Draw negative numbers in red and positive numbers in green.
 
 <svg width="500" height="200" style="border:1px solid grey">
 {% for point in data %}
-    <circle cx="{{point[0]}}" cy="{{point[1]}}" r="2" stroke="black" stroke-width="3" fill="red" />
+    <circle cx="{{point[0]*3+200}}" cy="{{point[1]*3}}" r="2" stroke="black" stroke-width="3" fill="red" />
 {% endfor %}
 </svg>
 
@@ -114,6 +116,6 @@ of the circle to represent the third value.
 
 <svg width="500" height="200" style="border:1px solid grey">
 {% for point in data %}
-    <circle cx="{{point[0]}}" cy="{{point[1]}}" r="2" stroke="black" stroke-width="3" fill="red" />
+    <circle cx="{{point[0]*3+200}}" cy="{{point[1]*3}}" r="{{point[2]}}" stroke="black" stroke-width="3" fill="red" />
 {% endfor %}
 </svg>
