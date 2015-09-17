@@ -8,26 +8,35 @@ Next, complete the following warmup exercises as a team.
 ## How many unique subject codes?
 
 {% lodash %}
-// TODO: replace with code that computes the actual result
-return 113
+var subjectCodes = _.pluck(data, 'Subject')
+var result = _.uniq(subjectCodes)
+return _.size(result)
 {% endlodash %}
 
-They are {{ result }} unique subject codes.
+There are {{ result }} unique subject codes.
 
 ## How many computer science (CSCI) courses?
 
 {% lodash %}
-// TODO: replace with code that computes the actual result
-return 63
+var subjectCodes = _.pluck(data, 'Subject')
+var result = _.filter(subjectCodes, function(n){
+return n == 'CSCI'
+})
+return _.size(result)
 {% endlodash %}
 
-They are {{ result }} computer science courses.
+There are {{ result }} computer science courses.
 
 ## What is the distribution of the courses across subject codes?
 
 {% lodash %}
-// TODO: replace with code that computes the actual result
-return {"HIST": 78,"HONR": 20,"HUMN": 17,"IAFS": 20,"IPHY": 134}
+var groups = _.groupBy(data, function(n){
+return n.Subject
+})
+var result = _.mapValues(groups, function(n){
+return n.length
+})
+return result
 {% endlodash %}
 
 <table>
@@ -42,14 +51,16 @@ return {"HIST": 78,"HONR": 20,"HUMN": 17,"IAFS": 20,"IPHY": 134}
 ## What subset of these subject codes have more than 100 courses?
 
 {% lodash %}
-// TODO: replace with code that computes the actual result
-var grps = _.groupBy(data, 'Subject')
-var ret = _.pick(_.mapValues(grps, function(d){
-    return d.length
-}), function(x){
-    return x > 100
+var groups = _.groupBy(data, function(n){
+return n.Subject
 })
-return {"IPHY": 134,"MATH": 232,"MCDB": 117,"PHIL": 160,"PSCI": 117}
+var maps = _.mapValues(groups, function(n){
+return n.length
+})
+var result = _.pick(maps, function (a){
+return a > 100
+})
+return result
 {% endlodash %}
 
 <table>
@@ -64,24 +75,43 @@ return {"IPHY": 134,"MATH": 232,"MCDB": 117,"PHIL": 160,"PSCI": 117}
 ## What subset of these subject codes have more than 5000 total enrollments?
 
 {% lodash %}
-// TODO: replace with code that computes the actual result
-return {"IPHY": 5507,"MATH": 8725,"PHIL": 5672,"PHYS": 8099,"PSCI": 5491}
-{% endlodash %}
+var groups = _.groupBy(data, function(college){
+return college["Subject"]
+})
+var courseEnroll = _.mapValues(groups, function(a){
+return _.map(a, function(b){
+return b["N"]["ENROLL"]
+})
+})
+var enroll = _.mapValues(courseEnroll, function(enrolls){
+return _.sum(enrolls)
+})
+return _.pick(enroll, function(number){
+return number > 5000
+})
 
+{% endlodash %}
 <table>
 {% for key, value in result %}
-    <tr>
-        <td>{{key}}</td>
-        <td>{{value}}</td>
-    </tr>
+<tr>
+<td> {{key}}</td>
+<td>{{value}}</td>
+</tr>
 {% endfor %}
 </table>
 
 ## What are the course numbers of the courses Tom (PEI HSIU) Yeh taught?
 
 {% lodash %}
-// TODO: replace with code that computes the actual result
-return ['4830','4830']
+var courses = _.filter(data, function(course){
+var instructor = _.filter(course["Instructors"], function(instructor){
+return instructor["name"] == "YEH, PEI HSIU"
+})
+return _.size(instructor) > 0
+})
+return _.map(courses, function(course){
+return course["Course"]
+})
 {% endlodash %}
 
 They are {{result}}.
