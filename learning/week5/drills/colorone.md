@@ -18,7 +18,7 @@ function computeX(d, i) {
 }
 
 function computeHeight(d, i) {
-    return i * 20 + 20 // TODO
+    return i
 }
 
 function computeColor(d, i) {
